@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title>Javascript Lisp</title>
+    <script type="text/javascript" src="jquery-1.4.4.min.js"></script>
+    <script type="text/javascript" src="jquery.console.js"></script>
+    <script type="text/javascript" src="js-lisp.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        var myconsole = $('<div class="console">');
+        $('body').append(myconsole);
+        var controller = myconsole.console({
+          promptLabel: '> ',
+          continuedPromptLabel: '  ',
+          commandValidate: function(line){
+            if(line == "") return false;
+            else return true;
+          },
+          commandHandle: function(line){
+            try
+            {
+              var ret = run(line);
+              var output = []
+              for(i in ret)
+                output.push({msg:ret[i],className:"console-value"});
+              controller.continuedPrompt = false;
+              return output;
+            }
+            catch(err)
+            {
+              if(err == "unexpected eof")
+              {
+                controller.continuedPrompt = true;
+                return;
+              }
+              controller.continuedPrompt = false;
+              return [{msg:"ERROR: " + err,className:"console-error"}];
+            }
+          },
+          autofocus:true,
+          animateScroll:true,
+          promptHistory:true,
+          charInsertTrigger:function(keycode,line){
+            //return !line.match(/[a-z]+/) && keycode != '0'.charCodeAt(0);
+            return true;
+          }
+        });
+      });
+    </script>
+    <style type="text/css" media="screen">
+      div.console { font-size: 14px }
+      div.console div.jquery-console-inner 
+      { width:900px; height:200px; background:#efefef; padding:0.5em;
+        overflow:auto }
+      div.console div.jquery-console-prompt-box
+      { color:#444; font-family:monospace; }
+      div.console div.jquery-console-focus span.jquery-console-cursor 
+      { background:#333; color:#eee; font-weight:bold }
+      div.console div.console-error
+      { color:#ef0505; font-family:monospace;
+        padding:0.1em; }
+      div.console div.console-value
+      { color:#187718; font-family:monospace;
+        padding:0.1em; }
+      div.console div.console-type
+      { color:#52666f; font-family:monospace;
+        padding:0.1em; }
+      div.console span.jquery-console-prompt-label { font-weight:bold }
+   </style>
+  </head>
+  <body>
+    <noscript>
+      <p>
+        <strong>No Javascript...</strong>
+      </p>
+    </noscript>
+    <div id="test">
+      Javascript Lisp
+    </div>
+  </body>
+</html>
