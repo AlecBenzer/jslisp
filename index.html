@@ -7,7 +7,7 @@
     <script type="text/javascript">
       $(document).ready(function() {
         var myconsole = $('<div class="console">');
-        $('body').append(myconsole);
+        $('#test').append(myconsole);
         var controller = myconsole.console({
           promptLabel: '> ',
           continuedPromptLabel: '  ',
@@ -76,5 +76,8 @@
     <div id="test">
       Javascript Lisp
     </div>
+    <p style="font-size: 85%">
+      <a href="https://github.com/alecbenzer/jslisp">Check out the source.</a><br />(fair warning: it's kind of messy at the moment)
+    </p>
   </body>
 </html>
